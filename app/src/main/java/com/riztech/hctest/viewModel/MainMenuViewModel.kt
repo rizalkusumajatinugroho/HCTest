@@ -16,6 +16,9 @@ import javax.inject.Inject
 
 class MainMenuViewModel(application: Application) : AndroidViewModel(application) {
 
+    constructor(application: Application, test: Boolean = true): this(application){
+        injected = true
+    }
     val listData by lazy { MutableLiveData<ArrayList<Any>>() }
     val loadError by lazy { MutableLiveData<Boolean>() }
     val loading by lazy { MutableLiveData<Boolean>() }
@@ -25,11 +28,15 @@ class MainMenuViewModel(application: Application) : AndroidViewModel(application
     @Inject
     lateinit var apiService: HomeApiService
 
-    init {
+    private var injected = false;
+
+    fun inject() {
+        if (!injected)
         DaggerViewModelComponent.create().inject(this)
     }
 
     fun refresh(){
+        inject()
         loading.value = true
         getData()
     }

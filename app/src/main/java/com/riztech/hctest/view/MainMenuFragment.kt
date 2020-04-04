@@ -38,7 +38,7 @@ class MainMenuFragment : Fragment() {
 
     private var errorObserver = Observer<Boolean> {isError ->
         if (isError)
-            Toast.makeText(context, "Error message", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Terjadi kesalahan server", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateView(
