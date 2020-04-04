@@ -58,7 +58,7 @@ class MainMenuViewModelTest {
     fun getHomeDataSuccess(){
 
         val item = ItemsModel("test", "test","test", "test", "test")
-        val homeModel = HomeModel("product", "test", arrayListOf(item))
+        val homeModel = HomeModel("product", "test", arrayListOf(item,item,item,item,item,item))
         val homeResponse = HomeResponse(arrayListOf(homeModel))
 
         val testSingle = Single.just(homeResponse)
