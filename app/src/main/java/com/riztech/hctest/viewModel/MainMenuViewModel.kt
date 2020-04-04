@@ -3,6 +3,7 @@ package com.riztech.hctest.viewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.riztech.hctest.di.DaggerViewModelComponent
 import com.riztech.hctest.model.ArticleItem
 import com.riztech.hctest.model.HomeApiService
 import com.riztech.hctest.model.HomeResponse
@@ -11,6 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class MainMenuViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +21,13 @@ class MainMenuViewModel(application: Application) : AndroidViewModel(application
     val loading by lazy { MutableLiveData<Boolean>() }
 
     private val disposable = CompositeDisposable()
-    private val apiService = HomeApiService()
+
+    @Inject
+    lateinit var apiService: HomeApiService
+
+    init {
+        DaggerViewModelComponent.create().inject(this)
+    }
 
     fun refresh(){
         loading.value = true
@@ -53,7 +61,7 @@ class MainMenuViewModel(application: Application) : AndroidViewModel(application
                                   }
 
                                    for (articleItem in valueData.items){
-                                       var articleData = ArticleItem(articleItem.articleTitle, articleItem.articleImage)
+                                       var articleData = ArticleItem(articleItem.articleTitle, articleItem.articleImage, articleItem.link)
                                        listArticle.add(articleData)
                                    }
                                }

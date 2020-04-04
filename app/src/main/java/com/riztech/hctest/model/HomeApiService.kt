@@ -1,22 +1,17 @@
 package com.riztech.hctest.model
 
+import com.riztech.hctest.di.DaggerApiComponent
 import io.reactivex.Single
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class HomeApiService {
 
+    @Inject
+    lateinit var api: HomeApi
 
-    private val BASE_URL = "https://private-a8e48-hcidtest.apiary-mock.com/"
-
-
-    private val api = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(HomeApi::class.java)
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
 
     fun getHome(): Single<HomeResponse>{

@@ -1,6 +1,9 @@
 package com.riztech.hctest.widget
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -103,6 +106,19 @@ class DataAdapter(private val context: Context?, private var adapterList: ArrayL
         override fun bind(item: ArticleItem) {
             titleArticle.text = item.articleTitle
             imageArticle.loadImage(item.articleImage, getProgressDrawable(itemView.context))
+
+            itemView.setOnClickListener {
+                item.link?.let {
+                    val uris = Uri.parse(item.link)
+                    val intents = Intent(Intent.ACTION_VIEW, uris)
+                    val b = Bundle()
+                    b.putBoolean("new_window", true)
+                    intents.putExtras(b)
+                    context?.startActivity(intents)
+//                    val action = MainMenuFragmentDirections.goToDetailLink(item.link)
+//                    Navigation.findNavController(itemView).navigate(action)
+                }
+            }
         }
     }
 }
